@@ -24,7 +24,7 @@
         },
         data(){
             return{
-                list:['商品','评论','参数','详情'],
+                list:['商品','参数','评论','推荐'],
                 currentIndex:0,
                 iid:0
             }
@@ -33,6 +33,7 @@
             changeTitle(index) {
                 if (this.currentIndex != index) {
                     this.currentIndex = index
+                    this.$emit('itemClick',index)
                 }
             },
             back() {

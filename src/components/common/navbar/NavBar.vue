@@ -21,7 +21,6 @@
         position: sticky;
         z-index: 9;
         top: 0px;
-        border-bottom: 3px solid darkgrey;
     }
     .left,.right{
         width: 60px;

@@ -1,14 +1,14 @@
 <template>
     <div id="Detail">
-        <detail-nav-bar class="detail-nav"/>
-        <scroll class="content" ref="scroll">
-        <detail-carousel :topImage="topImage"></detail-carousel>
-        <detail-base-info :goods="goods"></detail-base-info>
-        <detail-shop-info :shop="shop"></detail-shop-info>
-        <detail-goods-info :detailInfo="detailInfo"></detail-goods-info>
-        <detail-param-info :paramInfo="paramInfo"></detail-param-info>
-        <detail-comment-info :comment-info="commentInfo"></detail-comment-info>
-        <GoodsList :goods="recommend"></GoodsList>
+        <detail-nav-bar class="detail-nav" @itemClick="itemClick" ref="nav"/>
+        <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll">
+            <detail-carousel :topImage="topImage"></detail-carousel>
+            <detail-base-info :goods="goods"></detail-base-info>
+            <detail-shop-info :shop="shop"></detail-shop-info>
+            <detail-goods-info :detailInfo="detailInfo" @imageLoad="imageLoad"></detail-goods-info>
+            <detail-param-info :paramInfo="paramInfo" ref="param"></detail-param-info>
+            <detail-comment-info :comment-info="commentInfo" ref="comment"></detail-comment-info>
+            <GoodsList :goods="recommend" ref="recommend"></GoodsList>
         </scroll>
     </div>
 </template>
@@ -37,7 +37,9 @@
             DetailShopInfo,
             Scroll,
             DetailCommentInfo,
-            GoodsList
+            GoodsList,
+            TopY:[],
+
         },
         data(){
             return{
@@ -49,6 +51,8 @@
                 paramInfo:{},
                 commentInfo:{},
                 recommend:[],
+                Y:[],
+                position:0
             }
         },
         created() {
@@ -81,6 +85,7 @@
             this.$bus.$on('detailImageLoad',()=>{
                 refresh()
             })
+
         },
         methods:{
             debounce(func, delay) {
@@ -92,6 +97,33 @@
                     }, delay)
                 }
             },
+            itemClick(index){
+                this.$refs.scroll.scrollTo(0, -this.Y[index]+44, 100)
+            },
+            imageLoad(){
+                this.$refs.scroll.refresh()
+
+                this.Y.push(0)
+                this.Y.push(this.$refs.param.$el.offsetTop)
+                this.Y.push(this.$refs.comment.$el.offsetTop)
+                this.Y.push(this.$refs.recommend.$el.offsetTop)
+
+                console.log(this.Y)
+            },
+            contentScroll(position){
+                this.position = -position.y
+
+                if (this.position >=this.Y[0] && this.position <this.Y[1]-44){
+                    this.$refs.nav.currentIndex = 0
+                }else if(this.position >=this.Y[1]-44 && this.position <this.Y[2]-44){
+                    this.$refs.nav.currentIndex = 1
+                }else if(this.position >=this.Y[2]-44 && this.position <this.Y[3]-44){
+                    this.$refs.nav.currentIndex = 2
+                }else{
+                    this.$refs.nav.currentIndex = 3
+                }
+
+            }
         }
     }
 </script>
