@@ -10,6 +10,8 @@
             <detail-comment-info :comment-info="commentInfo" ref="comment"></detail-comment-info>
             <GoodsList :goods="recommend" ref="recommend"></GoodsList>
         </scroll>
+        <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
+        <detail-bottom-bar @addToCart="addToCart"></detail-bottom-bar>
     </div>
 </template>
 
@@ -23,8 +25,11 @@
     import DetailGoodsInfo from "./componts/DetailGoodsInfo";
     import DetailCommentInfo from "./componts/DetailCommentInfo";
     import GoodsList from "../../components/content/GoodsList";
+    import DetailBottomBar from "./componts/DetailBottomBar";
+    import BackTop from "../../components/content/BackTop";
 
     import {getDetailDate,Goods,Shop,GoodsParam,getRecommend} from "../../network/detail";
+
 
     export default {
         name: "Detail",
@@ -38,8 +43,8 @@
             Scroll,
             DetailCommentInfo,
             GoodsList,
-            TopY:[],
-
+            DetailBottomBar,
+            BackTop
         },
         data(){
             return{
@@ -52,7 +57,8 @@
                 commentInfo:{},
                 recommend:[],
                 Y:[],
-                position:0
+                position:0,
+                isShowBackTop: false,
             }
         },
         created() {
@@ -108,7 +114,6 @@
                 this.Y.push(this.$refs.comment.$el.offsetTop)
                 this.Y.push(this.$refs.recommend.$el.offsetTop)
 
-                console.log(this.Y)
             },
             contentScroll(position){
                 this.position = -position.y
@@ -123,6 +128,23 @@
                     this.$refs.nav.currentIndex = 3
                 }
 
+                this.isShowBackTop = (-position.y) > 1000
+            },
+            backClick(){
+                this.$refs.scroll.scrollTo(0, 0)
+            },
+            addToCart(){
+                console.log('添加购物车')
+                const obj = {}
+                obj.iid = this.iid
+                obj.imgURL = this.topImage[0]
+                obj.title = this.goods.title
+                obj.desc = this.goods.desc
+                obj.price = this.goods.realPrice
+                obj.count = 0
+                obj.checked = false
+
+                this.$store.commit('addToCart',obj)
             }
         }
     }
@@ -136,7 +158,7 @@
         background-color: white;
     }
     .content{
-        height: calc(100% - 44px);
+        height: calc(100% - 44px - 49px);
     }
     .detail-nav {
         position: relative;
