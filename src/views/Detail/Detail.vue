@@ -65,7 +65,7 @@
             this.iid = this.$route.params.iid
 
             getDetailDate(this.iid).then( res =>{
-                console.log(res);
+                // console.log(res);
                 const data = res.data.result
                 this.topImage = data.itemInfo.topImages
 
@@ -134,7 +134,6 @@
                 this.$refs.scroll.scrollTo(0, 0)
             },
             addToCart(){
-                console.log('添加购物车')
                 const obj = {}
                 obj.iid = this.iid
                 obj.imgURL = this.topImage[0]
@@ -144,7 +143,16 @@
                 obj.count = 0
                 obj.checked = false
 
-                this.$store.commit('addToCart',obj)
+                this.$store.dispatch('addToCart',obj).then(res =>{
+                    this.$message({
+                        message:res,
+                        center:true,
+                        offset:200,
+                        showClose:true,
+                        duration:2000,
+                        type: 'success'
+                    })
+                })
             }
         }
     }
@@ -164,5 +172,11 @@
         position: relative;
         z-index: 9;
         background-color: white;
+    }
+
+</style>
+<style>
+    .el-message{
+        min-width: 200px;
     }
 </style>

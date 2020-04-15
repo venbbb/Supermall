@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import th from "element-ui/src/locale/lang/th";
 
 Vue.use(Vuex)
 
@@ -8,20 +7,24 @@ const store = new Vuex.Store({
     state:{
         goodsList:[]
     },
-    mutations:{
-        addToCart(state, payload){
-            let old = null
-            for (let item of state.goodsList){
-                if (item.iid === payload.iid){
-                    old = item
+    actions:{
+        addToCart(content, payload){
+            return new Promise((resolve,reject) =>{
+                let old = null
+                for (let item of content.state.goodsList){
+                    if (item.iid === payload.iid){
+                        old = item
+                    }
                 }
-            }
-            if (old){
-                old.count +=1
-            }else{
-                payload.count = 1
-                state.goodsList.push(payload)
-            }
+                if (old){
+                    old.count +=1
+                    resolve('数量加一')
+                }else{
+                    payload.count = 1
+                    content.state.goodsList.push(payload)
+                    resolve('添加到购物车')
+                }
+            })
         }
     },
 })
