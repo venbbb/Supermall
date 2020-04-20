@@ -9,9 +9,9 @@
         <i class="icon shop"></i>
         <span class="text">店铺</span>
       </div>
-      <div>
+      <div @click="addToCollect">
         <i class="icon select"></i>
-        <span class="text">收藏</span>
+        <span class="text" >收藏</span>
       </div>
     </div>
     <div class="bar-item bar-right">
@@ -33,6 +33,9 @@
       },
       purchase(){
         this.$emit('purchase')
+      },
+      addToCollect(){
+        this.$emit('addToCollect')
       }
     }
 	}

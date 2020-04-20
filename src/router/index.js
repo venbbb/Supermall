@@ -5,10 +5,16 @@ const Category = () =>import("../views/Category/Category")
 const Cart = () =>import("../views/Cart/Cart")
 const Profile = () =>import("../views/Profile/Profile")
 const Detail =()=>import('../views/Detail/Detail')
+const Login =()=>import('../views/Login/Login')
+const Collect =()=>import('../views/Profile/componts/Collect')
 
 Vue.use(VueRouter)
 
 const routes = [
+    {
+      path:'/',
+      component:Login
+    },
     {
         path:"/Home",
         component:Home
@@ -24,11 +30,15 @@ const routes = [
     ,
     {
         path: '/profile',
-        component:Profile
+        component:Profile,
     },
     {
         path: '/Detail/:iid',
         component:Detail
+    },
+    {
+        path:'/collect',
+        component:Collect
     }
 ]
 const router = new VueRouter({

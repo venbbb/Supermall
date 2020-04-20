@@ -25,8 +25,26 @@ const store = new Vuex.Store({
                     resolve('添加到购物车')
                 }
             })
-        }
-    },
+        },
+        addToCollect(content, payload){
+            return new Promise((resolve,reject) =>{
+                let old = null
+                for (let item of content.state.goodsList){
+                    if (item.iid === payload.iid){
+                        old = item
+                    }
+                }
+                if (old){
+                    old.count +=1
+                    resolve('已经收藏')
+                }else{
+                    payload.count = 1
+                    content.state.goodsList.push(payload)
+                    resolve('收藏成功')
+                }
+            })
+        },
+    }
 })
 
 export default store

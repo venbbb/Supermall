@@ -31,7 +31,7 @@
             </div>
         </el-drawer>
         <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
-        <detail-bottom-bar @addToCart="addToCart" @purchase="purchase"></detail-bottom-bar>
+        <detail-bottom-bar @addToCart="addToCart" @purchase="purchase" @addToCollect="addToCollect"></detail-bottom-bar>
     </div>
 </template>
 
@@ -168,6 +168,25 @@
                 obj.checked = false
 
                 this.$store.dispatch('addToCart',obj).then(res =>{
+                    this.$message({
+                        message:res,
+                        center:true,
+                        offset:200,
+                        showClose:true,
+                        duration:2000,
+                        type: 'success'
+                    })
+                })
+            },
+            addToCollect(){
+                const obj = {}
+                obj.iid = this.iid
+                obj.imgURL = this.topImage[0]
+                obj.title = this.goods.title
+                obj.desc = this.goods.desc
+                obj.price = this.goods.realPrice
+
+                this.$store.dispatch('addToCollect',obj).then(res =>{
                     this.$message({
                         message:res,
                         center:true,
