@@ -10,8 +10,28 @@
             <detail-comment-info :comment-info="commentInfo" ref="comment"></detail-comment-info>
             <GoodsList :goods="recommend" ref="recommend"></GoodsList>
         </scroll>
+        <el-drawer :visible.sync="drawer" :direction="direction" :modal="modal" :size="size">
+            <div style="font-weight:bold">尺码</div>
+            <div class="size">
+                <el-button size="mini" round>S</el-button>
+                <el-button size="mini" round>M</el-button>
+                <el-button size="mini" round>L</el-button>
+                <el-button size="mini" round>XL</el-button>
+            </div>
+            <el-divider></el-divider>
+            <div style="font-weight:bold">颜色分类</div>
+            <div class="color">
+                <el-button size="mini" round>红色</el-button>
+                <el-button size="mini" round>蓝色</el-button>
+                <el-button size="mini" round>绿色</el-button>
+            </div>
+            <el-divider></el-divider>
+            <div class="drawer-button">
+                <el-button type="danger" @click="purchase">确认</el-button>
+            </div>
+        </el-drawer>
         <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
-        <detail-bottom-bar @addToCart="addToCart"></detail-bottom-bar>
+        <detail-bottom-bar @addToCart="addToCart" @purchase="purchase"></detail-bottom-bar>
     </div>
 </template>
 
@@ -44,7 +64,7 @@
             DetailCommentInfo,
             GoodsList,
             DetailBottomBar,
-            BackTop
+            BackTop,
         },
         data(){
             return{
@@ -59,6 +79,10 @@
                 Y:[],
                 position:0,
                 isShowBackTop: false,
+                drawer: false,
+                direction: 'btt',
+                modal:false,
+                size:'60%'
             }
         },
         created() {
@@ -153,6 +177,9 @@
                         type: 'success'
                     })
                 })
+            },
+            purchase(){
+                this.drawer = !this.drawer
             }
         }
     }
@@ -174,6 +201,10 @@
         background-color: white;
     }
 
+    .drawer-button{
+        text-align: center;
+        bottom: 0;
+    }
 </style>
 <style>
     .el-message{
