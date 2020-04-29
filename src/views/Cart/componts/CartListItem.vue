@@ -1,5 +1,5 @@
 <template>
-    <div id="shop-item">
+    <div id="shop-item" @touchstart.prevent="touchin"  @touchend.prevent="cleartime">
         <div class="item-selector">
             <CheckButton @checkBtnClick="checkedChange" :checked="itemInfo.checked"></CheckButton>
         </div>
@@ -30,7 +30,27 @@
         methods: {
             checkedChange: function () {
                 this.itemInfo.checked = !this.itemInfo.checked;
-            }
+            },
+            touchin(){
+                console.log(this.itemInfo);
+                let that = this
+                this.Loop = setTimeout(function() {
+                    this.$store.dispatch('delFromCat',that.itemInfo).then(res =>{
+                        this.$message({
+                            message:res,
+                            center:true,
+                            offset:200,
+                            showClose:true,
+                            duration:2000,
+                            type: 'success'
+                        })
+                    })
+                }.bind(this), 1000);
+            },
+            cleartime() {
+                // 这个方法主要是用来将每次手指移出之后将计时器清零
+                clearInterval(this.Loop);
+            },
         }
     }
 </script>

@@ -44,6 +44,18 @@ const store = new Vuex.Store({
                 }
             })
         },
+        delFromCat(content,payload){
+            return new Promise((resolve,reject) =>{
+                for (let item of content.state.goodsList){
+                    let i = 0
+                    if (item.iid === payload.iid){
+                        content.state.goodsList.splice(i,1)
+                    }
+                    i++
+                }
+                resolve('删除成功')
+            })
+        }
     }
 })
 
