@@ -1,80 +1,38 @@
 <template>
-    <div>
-        <span style="font-weight: bold">推荐分类</span>
-        <div class="recommend">
-            <div style="text-align:center;">
-                <img src="../../.././assets/img/common/cloth.svg" style="width: 100%">
-                <span>女装馆</span>
-            </div>
-            <div style="text-align:center;">
-                <img src="../../.././assets/img/common/cloth.svg" style="width: 100%">
-                <span>通勤馆</span>
-            </div>
-            <div style="text-align:center;">
-                <img src="../../.././assets/img/common/cloth.svg" style="width: 100%">
-                <span>国风馆</span>
-            </div>
-            <div style="text-align:center;">
-                <img src="../../.././assets/img/common/cloth.svg" style="width: 100%">
-                <span>潮女馆</span>
-            </div>
-            <div style="text-align:center;">
-                <img src="../../.././assets/img/common/cloth.svg" style="width: 100%">
-                <span>潮流馆</span>
-            </div>
-            <div style="text-align:center;">
-                <img src="../../.././assets/img/common/cloth.svg" style="width: 100%">
-                <span>新品馆</span>
-            </div>
-        </div>
-        <el-divider></el-divider>
-        <span style="font-weight: bold">热卖选购</span>
-        <div class="recommend">
-            <div style="text-align:center;">
-                <img src="../../.././assets/img/common/cloth.svg" style="width: 100%">
-                <span>女装馆</span>
-            </div>
-            <div style="text-align:center;">
-                <img src="../../.././assets/img/common/cloth.svg" style="width: 100%">
-                <span>连衣裙</span>
-            </div>
-            <div style="text-align:center;">
-                <img src="../../.././assets/img/common/cloth.svg" style="width: 100%">
-                <span>T恤</span>
-            </div>
-            <div style="text-align:center;">
-                <img src="../../.././assets/img/common/cloth.svg" style="width: 100%">
-                <span>衬衫</span>
-            </div>
-            <div style="text-align:center;">
-                <img src="../../.././assets/img/common/cloth.svg" style="width: 100%">
-                <span>大码女装</span>
-            </div>
-            <div style="text-align:center;">
-                <img src="../../.././assets/img/common/cloth.svg" style="width: 100%">
-                <span>休闲裤</span>
-            </div>
+    <div class="list">
+        <div class="listItem" v-for="item in subCategory">
+            <a :href="item.link">
+            <img :src="item.image">
+            <div>{{item.title}}</div>
+            </a>
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        name: "List"
+        name: "List",
+        props:{
+            subCategory:Array
+        }
     }
 </script>
 
 <style scoped>
-    .recommend{
-        margin-top: 20px;
+    .list{
         display: flex;
         flex-wrap: wrap;
-        justify-content:space-around;
     }
-    .recommend div{
+    .listItem{
         width: 30%;
+        text-align: center;
+        font-size: 14px;
+        margin: 3px;
     }
-    .recommend span{
-        color: #ff5777;
+    .listItem img{
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 100%;
     }
 </style>

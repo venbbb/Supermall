@@ -2,30 +2,17 @@
   <div>
     <nav-bar class="nav"><div slot="center">购物街</div> </nav-bar>
     <el-container>
-      <el-aside width="20%">
-        <el-menu
-              :default-active="activeIndex"
-              background-color="#666"
-              text-color="#fff"
-              active-text-color="#ffd04b"
-        >
-        <el-menu-item index="1">上衣</el-menu-item>
-        <el-menu-item index="2">裤子</el-menu-item>
-        <el-menu-item index="3">内衣</el-menu-item>
-          <el-menu-item index="4">裙子</el-menu-item>
-          <el-menu-item index="5">女鞋</el-menu-item>
-          <el-menu-item index="6">包包</el-menu-item>
-          <el-menu-item index="7">配饰</el-menu-item>
-          <el-menu-item index="8">美妆</el-menu-item>
-          <el-menu-item index="9">个护</el-menu-item>
-          <el-menu-item index="10">家具</el-menu-item>
-          <el-menu-item index="11">百货</el-menu-item>
-          <el-menu-item index="12">母婴</el-menu-item>
-          <el-menu-item index="13">食品</el-menu-item>
-      </el-menu>
-      </el-aside>
+        <el-aside width="30%">
+          <el-menu :default-active="activeIndex">
+            <el-menu-item v-for="(item,index) in category"
+                          :index="index.toString()"
+                          v-on:click="changeCategory(item)">
+              {{item.title}}
+            </el-menu-item>
+          </el-menu>
+        </el-aside>
       <el-main>
-        <list></list>
+        <list :subCategory="subCategory"></list>
       </el-main>
     </el-container>
   </div>
@@ -34,16 +21,45 @@
 <script>
   import List from "./componts/List";
   import NavBar from "../../components/common/navbar/NavBar";
+  import {getCategory,getSubcategory,getCategoryDetail} from "../../network/category"
+  import Scroll from "../../components/common/scroll/Scroll";
     export default {
-        name: "Category",
+      name: "Category",
       data(){
-          return{
-            activeIndex: '1',
-          }
+        return{
+          activeIndex: '0',
+          category:[],
+          currentMaitKey:3627,
+          subCategory:[],
+        }
+      },
+      created() {
+        this._getCategory()
+        this._getSubcategory()
       },
       components:{
+        Scroll,
           NavBar,
-        List
+          List
+      },
+      methods:{
+        _getSubcategory(){
+          getSubcategory(this.currentMaitKey).then(res =>{
+            console.log(res);
+            this.subCategory = res.data.data.list
+          })
+        },
+        _getCategory(){
+          getCategory().then(res =>{
+            console.log(res);
+            this.category = res.data.data.category.list
+          })
+        },
+        changeCategory(item){
+          console.log(item);
+          this.currentMaitKey = item.maitKey
+          this._getSubcategory()
+        }
       }
     }
 </script>
