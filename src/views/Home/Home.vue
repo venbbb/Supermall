@@ -17,6 +17,7 @@
             @pullingUp="loadMore">
       <carousel :banners="banners" @carouselImgLoad.once="imgLoad"></carousel>
       <home-recommend :recommends="recommends"></home-recommend>
+      <img src="../../assets/img/home/recommend_bg.jpg" style="width: 100%">
       <tab-control :titles="['热门','新款','精选']"
                    @tabClick="tabClick"
                    ref="tabControl2"

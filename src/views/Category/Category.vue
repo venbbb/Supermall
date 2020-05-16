@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav-bar class="nav"><div slot="center">购物街</div> </nav-bar>
+    <nav-bar class="nav"><div slot="center">分类</div> </nav-bar>
     <el-container>
         <el-aside width="30%">
           <el-menu :default-active="activeIndex">
